@@ -1,4 +1,6 @@
-file_path = 'C:/Users/015GOODLEPS/OneDrive - Carroll County KY Schools/Desktop/side/inventory.txt'
+import os
+currentdir = os.getcwd()
+file_path = f'{currentdir}/inventory.txt'
 # File format: itemName,quantity,price
 dataFile = open(file_path, 'a+')
 dataFileContents = open(file_path, 'r+').read()
@@ -31,3 +33,30 @@ def remove_item(name):
                 dataFile.write(item)
             return f"Successfully deleted {name}."
     return f"{name} not found in inventory. Please check spelling and try again."
+
+def update_item(name, quantity):
+    """
+    Updates an item's quantity from their name.
+    
+    Args:
+        name (str): The name of the item to be updated
+        quantity (int): The new quantity of the item
+    """
+    if len(dataFileContents) == 0:
+        return "0 items found in file. Add items before trying to update."
+    for item in dataFileContents:
+        if item[0] == name:
+            item[1] = quantity
+            for item in dataFileContents:
+                dataFile.write(item)
+            return f"Successfully updated {name}."
+    return f"{name} not found in inventory. Please check spelling and try again."
+
+def display():
+    """
+    Displays the inventory stock in an orderly fashion.
+    """
+    print("\nInventory Stock")
+    for item in dataFileContents:
+        print(f"Name: {item[0]} | Quantity: {item[1]}\n")
+
